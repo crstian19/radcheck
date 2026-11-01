@@ -240,10 +240,17 @@ LOGOS = {
 }
 
 
+# One mascot variant per size (ring colour + accessories); other sizes use the plain icon.
+MASCOTS = {"qwen35-4b": "radcheck-4b", "qwen35-9b": "radcheck-9b", "qwen38-27b": "radcheck-27b"}
+
+
+def _mascot(key: str) -> Path:
+    name = next((m for prefix, m in MASCOTS.items() if key.startswith(prefix)), None)
+    return IMG / "mascot" / f"{name}.png" if name else IMG / "logo-icon.png"
+
+
 def default_logos() -> dict[str, Path]:
-    logos = {
-        e.key: IMG / "logo-icon.png" for e in ENTRIES if e.key.startswith("qwen") and e.fine_tuned
-    }
+    logos = {e.key: _mascot(e.key) for e in ENTRIES if e.key.startswith("qwen") and e.fine_tuned}
     return {k: p for k, p in (logos | LOGOS).items() if p.exists()}
 
 

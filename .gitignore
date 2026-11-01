@@ -18,3 +18,4 @@ runs/
 # Secrets
 .env
 docs/remote-gpu.md
+docs/img/mascot/original/
