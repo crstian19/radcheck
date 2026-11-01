@@ -241,7 +241,12 @@ LOGOS = {
 
 
 # One mascot variant per size (ring colour + accessories); other sizes use the plain icon.
-MASCOTS = {"qwen35-4b": "radcheck-4b", "qwen35-9b": "radcheck-9b", "qwen38-27b": "radcheck-27b"}
+MASCOTS = {
+    "qwen35-4b": "radcheck-4b",
+    "qwen35-9b": "radcheck-9b",
+    "qwen38-27b": "radcheck-27b",
+    "qwen36-35b": "radcheck-35b-a3b",
+}
 
 
 def _mascot(key: str) -> Path:
