@@ -18,13 +18,17 @@ import sys
 from pathlib import Path
 
 
-def merge(model: str, adapter: str, out: Path) -> None:
+def merge(model: str, adapter: str, out: Path, gpu_gb: int = 0) -> None:
     import torch
     from peft import PeftModel
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
-    # CPU in bf16: no GPU memory needed, a 4B model takes a few minutes.
-    base = AutoModelForCausalLM.from_pretrained(model, dtype=torch.bfloat16, device_map="cpu")
+    # CPU in bf16: no GPU memory needed, a 4B model takes a few minutes. With gpu_gb, part of
+    # the layers live on the GPU so a model larger than free RAM (9B: 18 GB) still fits.
+    devices = {"device_map": "auto", "max_memory": {0: f"{gpu_gb}GiB", "cpu": "12GiB"}}
+    base = AutoModelForCausalLM.from_pretrained(
+        model, dtype=torch.bfloat16, **(devices if gpu_gb else {"device_map": "cpu"})
+    )
     merged = PeftModel.from_pretrained(base, adapter).merge_and_unload()
     merged.save_pretrained(out)
     # The adapter's tokenizer carries the chat template used in training.
@@ -40,12 +44,13 @@ def main() -> None:
     ap.add_argument("--name", required=True)
     ap.add_argument("--llama-cpp", type=Path, default=Path.home() / "Dev/llama.cpp")
     ap.add_argument("--quants", nargs="+", default=["Q8_0", "Q4_K_M"])
+    ap.add_argument("--gpu-gb", type=int, default=0, help="merge partly on the GPU (low RAM)")
     args = ap.parse_args()
 
     root = Path("models") / args.name
     merged = root / "merged"
     if not (merged / "config.json").exists():
-        merge(args.model, args.adapter, merged)
+        merge(args.model, args.adapter, merged, args.gpu_gb)
 
     f16 = root / f"{args.name}-bf16.gguf"
     convert = args.llama_cpp / "convert_hf_to_gguf.py"
