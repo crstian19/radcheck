@@ -38,6 +38,22 @@ class Entry:
 # Columns, in display order. Q4 sizes: our own file for the 4B, unsloth's Q4_K_M for the rest.
 ENTRIES = [
     Entry(
+        "qwen35-9b-v4-soup",
+        "radcheck 9B v4.1",
+        "Qwen3.5-9B",
+        "outputs/eval-extra/qwen35-9b-v4-soup-bench.json",
+        None,
+        5.7,
+    ),
+    Entry(
+        "qwen35-4b-v4-soup",
+        "radcheck 4B v4.1",
+        "Qwen3.5-4B",
+        "outputs/eval-extra/qwen35-4b-v4-soup-bench.json",
+        None,
+        2.7,
+    ),
+    Entry(
         "qwen35-9b-v4",
         "radcheck 9B v4",
         "Qwen3.5-9B",
@@ -223,8 +239,8 @@ def html_table(highlight: str) -> str:
 # Columns of the hero chart: one per model family (latest version), then the references.
 # The card's own model replaces the entry of its family and moves to the front.
 HERO = [
-    "qwen35-4b-v4",
-    "qwen35-9b-v4",
+    "qwen35-4b-v4-soup",
+    "qwen35-9b-v4-soup",
     "qwen36-35b-a3b-v1",
     "qwen38-27b-v2",
     "gemma4-31b-v1",
@@ -272,7 +288,7 @@ PANELS = [
 
 
 def _family(key: str) -> str:
-    return key.rsplit("-", 1)[0]
+    return key.removesuffix("-soup").rsplit("-", 1)[0]
 
 
 def _hero_columns(highlight: str) -> list[Entry]:

@@ -63,6 +63,10 @@ RECIPES = {
     "v4": "As v3, plus 2,945 synthetic reports written by Qwen3.8-27B, an extra two-error copy "
     "of 25% of the reports, and ~8% of examples made of two reports pasted together (so the "
     "model keeps looking after the first error).",
+    "v4.1": "The v4 recipe trained with several seeds (4B: 42, 7 and 13; 9B: 42 and 7) and the "
+    "adapters averaged into one (a model soup: the exact mean of their weight updates, so the "
+    "rank adds up). No extra training; it matches or beats the best single seed on most tests "
+    "without having to pick one.",
 }
 
 
@@ -111,7 +115,9 @@ def model_card(args: argparse.Namespace) -> str:
             "```"
         )
     )
-    system = SYSTEM_PROMPT_EXTENDED if args.recipe in ("v3", "v4") else SYSTEM_PROMPT
+    config = Path(args.folder or "") / "adapter_config.json"
+    rank = json.loads(config.read_text())["r"] if config.is_file() else 16
+    system = SYSTEM_PROMPT_EXTENDED if args.recipe not in ("v1", "v2") else SYSTEM_PROMPT
     gguf_lora = ""
     if args.gguf_lora:
         # LoRA as GGUF on top of a community Q4 base: no need to merge a model that does
@@ -165,10 +171,10 @@ llama-server -m <base>.gguf --lora {name} --jinja -ngl 99 --n-cpu-moe 20 -c 1638
 Flags **internal inconsistencies** in Spanish radiology reports: the same finding on
 different sides (`lateralidad`), something asserted in one place and denied in another
 (`negacion`), and the same measurement with a different number or unit (`medida`).
-{"From recipe v3 on it also flags a finding missing from the conclusion (`discordancia`) and speech-recognition slips (`transcripcion`)." if args.recipe in ("v3", "v4") else ""}
+{"From recipe v3 on it also flags a finding missing from the conclusion (`discordancia`) and speech-recognition slips (`transcripcion`)." if args.recipe not in ("v1", "v2") else ""}
 Output is JSON with the type, the exact fragment and a one-sentence explanation.
 
-{"Merged and quantised build of the LoRA fine-tune, for llama.cpp." if gguf else "LoRA adapter (r16) trained with TRL SFT."}
+{"Merged and quantised build of the LoRA fine-tune, for llama.cpp." if gguf else f"LoRA adapter (r{rank}) trained with TRL SFT."}
 Learning project, not a medical device: it does not judge clinical correctness and must not
 be used for patient care.
 
