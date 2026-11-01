@@ -1,0 +1,30 @@
+Escribe UN informe radiológico sintético en español que cumpla exactamente esta ficha.
+
+- Modalidad: {modalidad}
+- Región anatómica: {region}
+- Estilo de redacción: {estilo}
+- Longitud OBLIGATORIA: entre {min} y {max} palabras. Cuenta solo las palabras del informe.
+  Si te quedas corto, amplía los hallazgos con descripciones reales (márgenes, relación con
+  estructuras vecinas, técnica, comparación con estudios previos, hallazgos negativos
+  relevantes) hasta alcanzar el mínimo. No añadas relleno vacío ni repitas frases.
+- Dificultad prevista del ítem: {dificultad}
+
+Estilos:
+- A: un solo párrafo con cabeceras en mayúsculas y separadas por dos puntos, del tipo "EXPLORACIÓN: ... HALLAZGOS: ... CONCLUSIÓN: ...".
+- B: estructurado en varias líneas, con cabeceras en mayúsculas y viñetas o saltos de línea para cada hallazgo.
+- C: narrativo, con el bloque final titulado "IMPRESIÓN DIAGNÓSTICA".
+- D: telegráfico con abreviaturas habituales (dcho, izq, LSD, LII, D4-D5, T12, ap), frases sin verbo y mucho punto y aparte.
+
+Requisitos de contenido:
+1. El informe describe 2–5 hallazgos concretos con localización anatómica. Usa medidas en mm o cm cuando sean naturales para la modalidad.
+2. Debe existir un bloque de hallazgos y un bloque final de conclusión/impresión, con títulos distintos.
+3. La conclusión menciona otra vez los hallazgos principales, reformulados con otras palabras y otro orden, como haría un radiólogo al firmar.
+4. No incluyas incoherencias internas: ningún hallazgo puede aparecer con dos lados distintos, ni afirmado y negado, ni con dos cifras distintas. El informe debe ser coherente de principio a fin.
+   Si la técnica es "sin contraste", NO describas realce, captación ni "poscontraste" en ningún
+   hallazgo. Si quieres hablar de realce, escribe la técnica como "con contraste intravenoso".
+5. No uses las palabras "incoherencia" ni "negativo difícil", ni comentes el ejercicio, ni escribas notas para el lector.
+
+{foco}
+
+Devuelve JSON con esta forma exacta:
+{{"informe_limpio": "texto completo del informe, con sus saltos de línea escapados como \\n"}}

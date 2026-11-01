@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Data and artifacts: never commit (licences + size)
+data/*
+!data/README.md
+outputs/
+models/
+*.gguf
+*.safetensors
+wandb/
+runs/
+
+# Secrets
+.env
+docs/remote-gpu.md

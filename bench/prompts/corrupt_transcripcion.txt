@@ -1,0 +1,21 @@
+Recibes un informe radiológico sintético ya escrito. Tu tarea: introducir EXACTAMENTE UNA errata de transcripción por voz, del tipo que produce un dictado automático.
+
+Reglas:
+1. Elige una palabra técnica del informe que aparezca DOS veces: una en los hallazgos y otra en la conclusión. Preferencias: hilio, ecogénico, vesícula, nódulo, cortical, septum, lóbulo, quiste, derrame.
+2. Cambia UNA sola aparición por otra palabra que suene parecida en español (homófono o casi homófono): "hilio" -> "filio", "ecogénico" -> "hecogénico", "vesícula" -> "besícula", "nódulo" -> "nódolo", "cortical" -> "cortigal", "septum" -> "septun".
+3. `original` es la palabra CORRECTA, una sola palabra, copiada literalmente. Si aparece más de dos veces, elige otra palabra: la edición necesita exactamente dos apariciones.
+4. `nuevo` es la palabra deformada. Diferencia de `original` en 1 o 2 letras.
+5. `contraparte` es la OTRA aparición, la que conserva la forma correcta, copiada literalmente con 3-12 palabras a su alrededor. No puede ser la misma mención que editas.
+6. La errata debe ser verosímil como fallo de reconocimiento de voz, no una palabra inventada sin parecido fonético.
+7. No cambies nada más y no introduzcas contradicciones de lateralidad, negación ni medida.
+
+Informe original:
+<<<
+{informe}
+>>>
+
+Devuelve JSON con esta forma exacta:
+{{"original": "la palabra correcta, una sola palabra literal del informe",
+  "nuevo": "la palabra deformada que queda en su lugar",
+  "contraparte": "3-12 palabras literales de la OTRA aparición, la que conserva la forma correcta",
+  "explicacion": "una frase en español que nombre la palabra mal transcrita y dónde está la correcta"}}

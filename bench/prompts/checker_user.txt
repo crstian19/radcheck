@@ -1,0 +1,4 @@
+Informe radiológico a revisar:
+<<<
+{informe}
+>>>

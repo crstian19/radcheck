@@ -1,0 +1,40 @@
+Recibes un informe radiológico sintético ya escrito. Tu tarea: introducir EXACTAMENTE UNA incoherencia interna, del tipo pedido, con una edición mínima.
+
+Tipo de incoherencia: {slice}
+Ubicación del cambio: {ubicacion}
+Dirección: {direccion}
+Variante: {variante}
+Dificultad pedida: {dificultad}
+
+Distancia entre las dos menciones según la dificultad:
+- easy: las dos menciones quedan en frases contiguas o muy próximas.
+- medium: quedan separadas por uno o dos párrafos o por varias líneas.
+- hard: quedan en extremos opuestos del informe, o una de ellas usa abreviaturas (dcho/izq).
+
+Definiciones:
+- lateralidad: el mismo hallazgo, mencionado dos veces en el informe, aparece con lados distintos. Cambia el lado de UNA sola mención.
+- negacion: una parte afirma lo que la otra niega ("no se observan adenopatías" frente a "adenopatías ..."). La estructura anatómica debe ser la misma en ambos sitios y solo una de las dos menciones puede estar negada. La frase resultante tiene que seguir siendo GRAMATICAL: ajusta las palabras de unión como haría un radiólogo ("sin signos de X" -> "con signos de X"; "no se observan X" -> "se observan X"; "sin X ni Y" -> "con X e Y"). Nunca dejes una frase empezando por "Signos de" ni con un "ni" huérfano.
+- medida: la misma medida aparece dos veces con cifras o unidades distintas. Variantes: unit_swap (9 mm frente a 9 cm), x10 (9 mm frente a 90 mm), digit_slip (19 mm frente a 9 mm), decimal_slip (1,5 cm frente a 15 cm).
+
+Reglas estrictas:
+1. El hallazgo afectado debe aparecer DOS veces en el informe, una en el bloque de hallazgos y otra en la conclusión, con la misma lateralidad, el mismo sentido y la misma cifra.
+2. `original` es un trozo de 1 a 4 palabras copiado LITERALMENTE del informe tal como está escrito. Debe aparecer UNA SOLA VEZ en todo el informe: si la palabra se repite, amplía el trozo hasta que sea única.
+3. `nuevo` es el texto que sustituye a `original`. Diferencia con `original` en 1 o 2 palabras (el lado, la negación o la cifra). No cambies nada más del informe.
+   El cambio debe caer sobre el lado, la negación o la cifra EN SÍ, con su sustantivo: sustituye "en el riñón izquierdo" o "lóbulo izquierdo", nunca un fragmento que empiece por una preposición de encuadre ("En el", "En la", "A nivel de").
+4. Para `discordancia` el defecto es una ELIMINACIÓN: `nuevo` puede ser la cadena vacía.
+5. `contraparte` es la OTRA mención del mismo hallazgo, copiada literalmente, de 3 a 12 palabras, dentro de una sola frase. Debe seguir siendo válida después de la edición (no la toca).
+6. La incoherencia debe ser verificable solo con el texto: no dependas de conocimiento clínico.
+7. No introduzcas ninguna otra incoherencia.
+   Si no encuentras una errata verosímil, usa la primera errata de esta lista que aparezca en el informe: hilio/filio, ecogénico/hecogénico, vesícula/besícula, nódulo/nódolo, cortical/cortigal, septum/septun.
+8. `explicacion` es una sola frase en español que nombre los dos sitios (hallazgos y conclusión).
+
+Informe original:
+<<<
+{informe}
+>>>
+
+Devuelve JSON con esta forma exacta:
+{{"original": "1-4 palabras literales y únicas del informe que vas a sustituir",
+  "nuevo": "el texto que queda en su lugar",
+  "contraparte": "3-12 palabras literales de la otra mención del mismo hallazgo",
+  "explicacion": "una frase en español"}}

@@ -1,0 +1,19 @@
+Recibes un informe radiológico sintético ya escrito. Tu tarea: introducir EXACTAMENTE UN defecto de tipo discordancia: un hallazgo relevante que está descrito en los hallazgos pero NO aparece en la conclusión.
+
+Cómo hacerlo:
+1. Elige un hallazgo concreto y relevante del bloque de hallazgos que ahora SÍ esté mencionado en la conclusión.
+2. Borra su mención de la conclusión. `nuevo` es la cadena vacía. La conclusión debe seguir siendo una frase gramatical y completa para el resto de hallazgos.
+3. No cambies el bloque de hallazgos. No introduzcas contradicciones de lateralidad, negación ni medida.
+4. `original` es la mención completa que borras de la conclusión, copiada literalmente del informe. Debe aparecer UNA SOLA VEZ en todo el informe (si el hallazgo se repite en los hallazgos, incluye palabras suficientes para que el texto sea único).
+5. `contraparte` son 3-12 palabras literales del bloque de hallazgos que describen el hallazgo que queda huérfano.
+
+Informe original:
+<<<
+{informe}
+>>>
+
+Devuelve JSON con esta forma exacta:
+{{"original": "la mención literal y única que borras de la conclusión",
+  "nuevo": "",
+  "contraparte": "3-12 palabras literales de los hallazgos con el hallazgo ahora ausente",
+  "explicacion": "una frase en español que diga qué hallazgo de los hallazgos no aparece en la conclusión"}}

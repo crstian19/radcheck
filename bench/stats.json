@@ -1,0 +1,95 @@
+{
+  "version": "v1",
+  "seed": 13,
+  "items": 460,
+  "main_items": 400,
+  "extra_items": 60,
+  "splits": {
+    "dev": 60,
+    "test": 340,
+    "extra": 60
+  },
+  "slice": {
+    "clean_hard": 100,
+    "lateralidad": 67,
+    "negacion": 67,
+    "medida": 66,
+    "clean_ordinary": 100,
+    "discordancia": 30,
+    "transcripcion": 30
+  },
+  "slice_by_split": {
+    "dev/clean_hard": 15,
+    "dev/lateralidad": 10,
+    "dev/negacion": 10,
+    "dev/medida": 10,
+    "dev/clean_ordinary": 15,
+    "test/medida": 56,
+    "test/negacion": 57,
+    "test/lateralidad": 57,
+    "test/clean_hard": 85,
+    "test/clean_ordinary": 85,
+    "extra/discordancia": 30,
+    "extra/transcripcion": 30
+  },
+  "hard_negative": {
+    "laterales_distintos": 22,
+    "comparacion_previa": 12,
+    "bilateral_asimetrico": 12,
+    "organo_sin_lateralidad": 20,
+    "negacion_estructura_distinta": 18,
+    "mismo_numero_estructuras_distintas": 16
+  },
+  "estilo": {
+    "A": 100,
+    "B": 100,
+    "C": 100,
+    "D": 100
+  },
+  "modalidad": {
+    "ecografía": 86,
+    "TC": 144,
+    "mamografía": 29,
+    "RX": 29,
+    "RM": 112
+  },
+  "region": {
+    "musculoesquelético": 57,
+    "cabeza-cuello": 57,
+    "abdomen-pelvis": 86,
+    "mama": 29,
+    "tórax": 57,
+    "neuro": 57,
+    "columna": 57
+  },
+  "dificultad": {
+    "hard": 162,
+    "medium": 77,
+    "easy": 161
+  },
+  "length_words": {
+    "min": 60,
+    "max": 425,
+    "mean": 204.4,
+    "over_250": 149,
+    "over_250_share": 0.324
+  },
+  "corrupted": 260,
+  "generador": {
+    "deepseek-v4-flash": 460
+  },
+  "validation": {
+    "validate_pass": 460,
+    "validate_fail": 0,
+    "independent_check": {
+      "model": "qwen3.8-flash",
+      "family": "Qwen",
+      "agree": 387,
+      "disagree": 73,
+      "of": 460,
+      "main_track_agreement": 0.9675,
+      "extra_track_disagreements": 60,
+      "extra_note": "el chequeo ignora omisiones y erratas por diseño: el track extra no puntúa en el resultado principal"
+    }
+  }
+}

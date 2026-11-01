@@ -1,0 +1,64 @@
+[project]
+name = "radcheck"
+version = "0.1.0"
+description = "Small local LLM that flags internal inconsistencies in Spanish radiology reports"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "datasets",
+  "transformers",
+  "peft",
+  "trl",
+  "accelerate",
+  "bitsandbytes",
+  "openai",
+]
+
+# Pick exactly one GPU backend: `uv sync --extra rocm` (AMD) or `uv sync --extra cuda` (NVIDIA).
+[project.optional-dependencies]
+rocm = ["torch>=2.14", "triton-rocm"]
+cuda = ["torch>=2.14"]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "ruff",
+    "jupyterlab",
+    "tensorboard>=2.21.0",
+    "matplotlib>=3.11.2",
+]
+eval = ["lm-eval"]
+
+[tool.uv]
+conflicts = [[{ extra = "rocm" }, { extra = "cuda" }]]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-rocm", extra = "rocm" },
+  { index = "pytorch-cuda", extra = "cuda" },
+]
+# The ROCm build of torch pulls its Triton from the PyTorch index, not PyPI.
+triton-rocm = [{ index = "pytorch-rocm", extra = "rocm" }]
+
+[[tool.uv.index]]
+name = "pytorch-rocm"
+url = "https://download.pytorch.org/whl/rocm7.2"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[build-system]
+requires = ["uv_build>=0.8"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+# bench/ is built by a separate agent (see docs/benchmark-spec.md); do not reformat it.
+extend-exclude = ["bench"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

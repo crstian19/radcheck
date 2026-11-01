@@ -1,0 +1,73 @@
+{"id": "rcb-0032", "motivo": "check_disagrees", "gold": ["lateralidad"], "checker": [{"tipo": "negacion", "cita": "Mama izq: sin nódulos ni distorsión arquitectónica. ... Se sugiere correlación ecográfica de la lesión descrita en la mama izquierda para completar la valoración.", "motivo": "La sección de hallazgos niega la presencia de nódulos o lesiones en la mama izquierda, pero la impresión diagnóstica solicita estudio de una 'lesión descrita' en dicha mama."}]}
+{"id": "rcb-0066", "motivo": "check_disagrees", "gold": ["lateralidad"], "checker": [{"tipo": "lateralidad", "cita": "Derrame pleural laminar izquierdo... Derrame pleural derecho de escasa cuantía", "motivo": "El hallazgo se describe como derrame en el lado izquierdo en los hallazgos, pero la conclusión lo sitúa en el lado derecho."}, {"tipo": "negacion", "cita": "cambios enfisematosos bibasales de predominio superior", "motivo": "La conclusión afirma que hay cambios enfisematosos 'bibasales' (en ambas bases), mientras que los hallazgos describen un enfisema de 'predominio en lóbulos superiores', sin mencionar afectación basal alguna."}]}
+{"id": "rcb-0071", "motivo": "check_disagrees", "gold": ["lateralidad"], "checker": [{"tipo": "lateralidad", "cita": "Se realiza ecografía del tendón de Aquiles derecho... se identifica un engrosamiento fusiforme del tendón de Aquiles izquierdo... El diámetro anteroposterior máximo del tendón en esa región mide 11 mm, frente a los 6 mm del lado contralateral... IMPRESIÓN DIAGNÓSTICA: Tendinopatía del tercio medio del tendón de Aquiles derecho", "motivo": "El informe indica que el hallazgo patológico (engrosamiento de 11 mm) está en el lado izquierdo, pero la impresión diagnóstica lo atribuye al lado derecho."}, {"tipo": "negacion", "cita": "se identifica un engrosamiento fusiforme del tendón de Aquiles izquierdo... El tendón de Aquiles izquierdo... presentan ecogenicidad y grosor dentro de la normalidad.", "motivo": "Una parte describe una tendinopatía con engrosamiento en el Aquiles izquierdo, mientras que otra sección afirma explícitamente que el Aquiles izquierdo es normal."}]}
+{"id": "rcb-0088", "motivo": "check_disagrees", "gold": ["negacion"], "checker": [{"tipo": "lateralidad", "cita": "Microcalcificaciones agrupadas en LII... Agrupación de microcalcificaciones puntiformes de 4 mm en la unión de cuadrantes inferiores derechos", "motivo": "Los hallazgos sitúan las microcalcificaciones en el lado izquierdo (LII), pero la conclusión las describe en el lado derecho."}, {"tipo": "lateralidad", "cita": "Mama izq: nódulo ovalado en LSD... Nódulo benigno de 12 mm en cuadrante superoexterno izquierdo", "motivo": "La descripción indica que el nódulo está en la mama izquierda, pero utiliza la abreviatura 'LSD' (que suele significar Latero-Superior Derecho o similar según contexto, creando ambigüedad con 'izquierda'), aunque la conclusión confirma 'izquierdo'. Sin embargo, el error más claro es la contradicción directa entre 'Mama dcha' y 'LII' vs 'derechos' en la conclusión para las calcificaciones. Revisando estrictamente: En 'Hallazgos', dice 'Mama dcha... Microcalcificaciones... en LII'. Esto es una incoherencia interna inmediata dentro del párrafo de hallazgos si asumimos que LII se refiere a la mama descrita (dcha) o si hay confusión de etiquetas. Pero mirando la Conclusión: Hallazgos dice 'Mama izq: nódulo... en LSD'. LSD normalmente es Latero-Superior Derecho. Si está en Mama Izquierda, debería ser LSI. La conclusión dice 'nódulo... izquierdo'. Hay una mezcla de códigos laterales incorrectos. El caso más flagrante de contradicción entre dos partes del informe es: Hallazgos ubica microcalcificaciones en 'Mama dcha' (implícito por el encabezado) pero especifica 'LII' (Izquierdo Inferior?). O mejor aún: Hallazgos dice 'Mama dcha... Microcalcificaciones... en LII'. Conclusión dice 'microcalcificaciones... en ... derechos'. Aquí hay una contradicción clara de lateralidad para las microcalcificaciones: ¿Están en la derecha o en la izquierda? Los hallazgos dicen 'Mama dcha' pero usan 'LII' (que podría interpretarse como Izquierda). La conclusión dice 'derechos'. Asumiendo que 'LII' fue un error tipográfico por 'RDI' o similar, o que el radiólogo confundió los lados. La contradicción explícita es entre la ubicación anatómica declarada en Hallazgos ('Mama dcha') y la etiqueta específica ('LII' - Izquierda Inferior?) o la conclusión ('derechos'). Vamos a centrarnos en la contradicción directa entre Hallazgos y Conclusión sobre las calcificaciones: Hallazgos: 'Mama dcha... Microcalcificaciones... en LII'. Conclusión: 'microcalcificaciones... en ... derechos'. Si 'LII' significa Left Lower Inner/Outer, contradice 'Mama dcha'. Pero la instrucción pide contradicciones entre partes. Parte A (Hallazgos): Ubica calcificaciones en Mama Derecha (encabezado) pero usa código LII (Izquierda). Parte B (Conclusión): Las ubica en Derechos. Hay inconsistencia. Otro ejemplo claro: Hallazgos: 'Mama izq: nódulo... en LSD'. LSD = Latero Superior Derecho. Conclusión: 'Nódulo... izquierdo'. Contradicción entre el código de localización en hallazgos (Derecho) y la conclusión (Izquierdo)."}]}
+{"id": "rcb-0092", "motivo": "check_disagrees", "gold": ["lateralidad"], "checker": [{"tipo": "lateralidad", "cita": "hernia discal paracentral dcha... Hernia discal paracentral izq en L5-S1", "motivo": "La hernia se describe como derecha en los hallazgos y izquierda en la conclusión."}, {"tipo": "negacion", "cita": "sin compresión significativa... compromiso de la raíz S1 dcha", "motivo": "Los hallazgos indican ausencia de compresión significativa, mientras que la conclusión afirma compromiso radicular."}]}
+{"id": "rcb-0257", "motivo": "check_disagrees", "gold": ["negacion"], "checker": []}
+{"id": "rcb-0311", "motivo": "check_disagrees", "gold": ["lateralidad"], "checker": [{"tipo": "lateralidad", "cita": "En el riñón derecho se aprecia una formación quística simple de 22 mm en el polo inferior... Quiste simple cortical de 22 mm en el polo inferior del riñón izquierdo", "motivo": "El hallazgo descriptivo sitúa el quiste en el riñón derecho, mientras que la impresión diagnóstica lo ubica en el riñón izquierdo."}, {"tipo": "negacion", "cita": "riñón derecho sin anomalías", "motivo": "La conclusión afirma que el riñón derecho no tiene anomalías, contradiciendo la descripción previa donde se identifica un quiste de 22 mm en dicho lado."}]}
+{"id": "rcb-0389", "motivo": "check_disagrees", "gold": ["medida"], "checker": [{"tipo": "medida", "cita": "la mayor de ellas en la región frontoparietal derecha, de 18 cm de diámetro máximo ... El hallazgo de mayor tamaño corresponde a una lesión frontoparietal derecha de 18 mm", "motivo": "La misma lesión se describe con unidades distintas (cm vs mm) y magnitudes incompatibles para una lesión cerebral."}, {"tipo": "negacion", "cita": "sin contraste intravenoso ... sin restricción de la difusión ni realce tras la administración de contraste", "motivo": "El informe indica que no se administró contraste, pero luego evalúa el 'realce' como si hubiera habido administración."}]}
+{"id": "rcb-x0401", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0402", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0403", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": [{"tipo": "negacion", "cita": "En el globo ocular izquierdo se observa una lesión nodular de 6 mm... no se observan otras alteraciones intraoculares", "motivo": "La sección de hallazgos describe una lesión intraocular significativa en el ojo izquierdo, pero la impresión diagnóstica afirma que no se observan alteraciones intraoculares."}]}
+{"id": "rcb-x0404", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0405", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0406", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0407", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0408", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0409", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0410", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0413", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0414", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0415", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0416", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0417", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0419", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0421", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0422", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0423", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0424", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0425", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": [{"tipo": "negacion", "cita": "Aumento de densidad en base pulmonar izquierda con pinzamiento del seno costofrénico ipsilateral, compatible con derrame pleural de escasa cuantía. ... CONCLUSIÓN: ... Resto sin hallazgos significativos.", "motivo": "La sección de hallazgos describe un derrame pleural izquierdo, pero la conclusión afirma que no hay otros hallazgos significativos, contradiciendo el informe."}]}
+{"id": "rcb-x0427", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0429", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0430", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0431", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0434", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0435", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0437", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0438", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0439", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0445", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0446", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0447", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0449", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0450", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0455", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0457", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0459", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0412", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0443", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0451", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-0211", "motivo": "check_disagrees", "gold": ["negacion"], "checker": []}
+{"id": "rcb-0155", "motivo": "check_disagrees", "gold": ["negacion"], "checker": []}
+{"id": "rcb-0329", "motivo": "check_disagrees", "gold": ["negacion"], "checker": []}
+{"id": "rcb-x0411", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0418", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0420", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0428", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0432", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0440", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0452", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0454", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0456", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0460", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-0192", "motivo": "check_disagrees", "gold": [], "checker": [{"tipo": "negacion", "cita": "ESTUDIO SIN CONTRASTE IV ... sin captación tras contraste", "motivo": "El informe indica que el estudio se realizó sin contraste intravenoso, pero luego describe un hallazgo pleural como 'sin captación tras contraste', lo cual es imposible de evaluar en una TC sin contraste."}]}
+{"id": "rcb-x0426", "motivo": "check_disagrees", "gold": ["discordancia"], "checker": []}
+{"id": "rcb-x0441", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0442", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0448", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0453", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0458", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0433", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-0064", "motivo": "check_disagrees", "gold": [], "checker": [{"tipo": "negacion", "cita": "con contacto sobre el saco tecal sin compresión significativa de raíces ... sin compromiso del saco tecal ni de los recesos laterales", "motivo": "La sección de hallazgos describe contacto con el saco tecal, mientras que la conclusión afirma explícitamente que no hay compromiso del mismo."}]}
+{"id": "rcb-x0436", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
+{"id": "rcb-x0444", "motivo": "check_disagrees", "gold": ["transcripcion"], "checker": []}
