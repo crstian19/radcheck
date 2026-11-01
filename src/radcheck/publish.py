@@ -212,7 +212,9 @@ def main() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         stage = Path(tmp)
         if args.key:
-            leaderboard.hero_chart(args.key, stage / "assets" / "radcheck_bench.png")
+            leaderboard.hero_chart(
+                args.key, stage / "assets" / "radcheck_bench.png", leaderboard.default_logos()
+            )
         (stage / "assets").mkdir(exist_ok=True)
         shutil.copy2(LOGO, stage / "assets" / "logo.png")
         (stage / "README.md").write_text(model_card(args), encoding="utf-8")

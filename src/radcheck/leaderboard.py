@@ -231,6 +231,22 @@ HERO = [
     "qwen38-27b-base",
 ]
 REFERENCES = {"gemma4-31b-v1", "qwen38-27b-base"}  # drawn after the dotted separator
+# Badges under the bars: the mascot for radcheck models, the maker's avatar (from its
+# Hugging Face organisation) for the reference models.
+IMG = Path(__file__).resolve().parents[2] / "docs" / "img"
+LOGOS = {
+    "gemma4-31b-v1": IMG / "logos" / "google.png",
+    "qwen38-27b-base": IMG / "logos" / "qwen.png",
+}
+
+
+def default_logos() -> dict[str, Path]:
+    logos = {
+        e.key: IMG / "logo-icon.png" for e in ENTRIES if e.key.startswith("qwen") and e.fine_tuned
+    }
+    return {k: p for k, p in (logos | LOGOS).items() if p.exists()}
+
+
 # Pastel tints for the other columns (light versions of the reference palette hues).
 TINTS = ["#d6e6f8", "#e4dcf6", "#d5efe4", "#f8e3d4", "#e7e6e1"]
 PANELS = [
@@ -290,8 +306,25 @@ def _bar(ax, x: float, height: float, width: float, color: str, solid: bool) -> 
         im.set_clip_path(patch)
 
 
-def hero_chart(highlight: str, out: Path) -> None:
-    """Release-style evaluation figure: one small panel per metric, this card's model first."""
+def _round_logo(path: Path, px: int = 160):
+    """Logo as an RGBA array cropped to a circle, so square avatars look like badges."""
+    import numpy as np
+    from PIL import Image, ImageDraw
+
+    im = Image.open(path).convert("RGBA").resize((px, px), Image.LANCZOS)
+    mask = Image.new("L", (px, px), 0)
+    ImageDraw.Draw(mask).ellipse((0, 0, px - 1, px - 1), fill=255)
+    im.putalpha(Image.composite(im.getchannel("A"), mask, mask))
+    return np.asarray(im)
+
+
+def hero_chart(highlight: str, out: Path, logos: dict[str, Path] | None = None) -> None:
+    """Release-style evaluation figure: one small panel per metric, this card's model first.
+
+    logos maps an entry key to an image drawn under its bars and in the legend.
+    """
+    from matplotlib.offsetbox import AnnotationBbox, OffsetImage
+
     plt.rcParams["font.family"] = ["Google Sans", "DejaVu Sans"]
     cols = _hero_columns(highlight)
     data = {e.key: _summary(e.bench) for e in cols}
@@ -300,6 +333,17 @@ def hero_chart(highlight: str, out: Path) -> None:
     tints = iter(TINTS)
     for e in cols:
         colors[e.key] = ACCENT if e.key == highlight else next(tints)
+    badges = {k: _round_logo(p) for k, p in (logos or {}).items()}
+
+    def badge(ax, key: str, xy, zoom: float, coords: str = "data", offset=(0, 0)) -> None:
+        if key in badges:
+            box = OffsetImage(badges[key], zoom=zoom)
+            ax.add_artist(
+                AnnotationBbox(
+                    box, xy, xycoords=coords, xybox=offset, boxcoords="offset points",
+                    frameon=False, annotation_clip=False,
+                )
+            )  # fmt: skip
 
     fig = plt.figure(figsize=(15, 10.2), dpi=150)
     fig.patch.set_facecolor("white")
@@ -325,6 +369,10 @@ def hero_chart(highlight: str, out: Path) -> None:
                 figure=fig,
             )
         )
+        if e.key in badges:
+            x += 0.004
+            badge(fig, e.key, (x + 0.022, y + 0.006), 0.14, coords="figure fraction")
+            x += 0.026
         t1 = fig.text(
             x + 0.018, y, e.name, fontsize=15, fontweight="bold", color=TEXT, va="baseline"
         )
@@ -339,7 +387,14 @@ def hero_chart(highlight: str, out: Path) -> None:
 
     n_ref = sum(e.key in REFERENCES for e in cols)
     grid = fig.add_gridspec(
-        2, 3, left=0.045, right=0.97, top=0.78, bottom=0.07, hspace=0.42, wspace=0.12
+        2,
+        3,
+        left=0.045,
+        right=0.97,
+        top=0.78,
+        bottom=0.11 if badges else 0.07,
+        hspace=0.42,
+        wspace=0.12,
     )
     for i, (title, get) in enumerate(PANELS):
         ax = fig.add_subplot(grid[i // 3, i % 3])
@@ -370,11 +425,13 @@ def hero_chart(highlight: str, out: Path) -> None:
                 linewidth=1.3,
             )
         ax.axhline(0, color="#9a9994", linewidth=1)
+        for j, e in enumerate(cols):
+            badge(ax, e.key, (j, 0), 0.16, offset=(0, -17))
         ax.set_xticks([])
         ax.set_yticks([])
         for side in ("top", "right", "left", "bottom"):
             ax.spines[side].set_visible(False)
-        ax.set_xlabel(title, fontsize=17, color="#2b2b2b", labelpad=10)
+        ax.set_xlabel(title, fontsize=17, color="#2b2b2b", labelpad=36 if badges else 10)
     out.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(out, facecolor="white")
     plt.close(fig)
@@ -388,7 +445,7 @@ def main() -> None:
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
     out = Path(args.out)
-    hero_chart(args.highlight, out / "assets" / "radcheck_bench.png")
+    hero_chart(args.highlight, out / "assets" / "radcheck_bench.png", default_logos())
     (out / "table.html").write_text(html_table(args.highlight), encoding="utf-8")
     print(f"wrote {out}/assets/radcheck_bench.png and {out}/table.html")
 
