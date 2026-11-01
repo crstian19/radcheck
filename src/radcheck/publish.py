@@ -24,6 +24,34 @@ from radcheck.prompts import SYSTEM_PROMPT, SYSTEM_PROMPT_EXTENDED
 
 LOGO = Path(__file__).resolve().parents[2] / "docs" / "img" / "logo.png"
 
+
+def cover(key: str | None, out: Path) -> None:
+    """Wide logo with the circle swapped for this model's mascot variant (plain logo if none)."""
+    import numpy as np
+    from PIL import Image, ImageDraw
+
+    out.parent.mkdir(parents=True, exist_ok=True)
+    mascot = leaderboard.mascot(key) if key else None
+    if not mascot or mascot.parent.name != "mascot":
+        shutil.copy2(LOGO, out)
+        return
+    logo = Image.open(LOGO).convert("RGB")
+    a = np.asarray(logo)[:, : logo.width * 2 // 5]  # the circle sits in the left 40%
+    ys, xs = np.where(a.max(axis=2) < 120)  # near-black outline only (the blue text is bright)
+    r = max(xs.max() - xs.min(), ys.max() - ys.min()) / 2 + 1
+    cx, cy = (xs.min() + xs.max()) / 2, (ys.min() + ys.max()) / 2
+    # Mascot crops carry a 6 px margin around a ~1,154 px circle; keep the same proportion.
+    r += round(r * 2 * 6 / 1154)
+    box = tuple(round(v) for v in (cx - r, cy - r, cx + r, cy + r))
+    pad = round(r * 2 * 6 / 1166)
+    size = (box[2] - box[0], box[3] - box[1])
+    icon = Image.open(mascot).convert("RGB").resize(size, Image.LANCZOS)
+    mask = Image.new("L", size, 0)
+    ImageDraw.Draw(mask).ellipse((pad - 2, pad - 2, size[0] - pad + 1, size[1] - pad + 1), fill=255)
+    logo.paste(icon, box[:2], mask)
+    logo.save(out, optimize=True)
+
+
 RECIPES = {
     "v1": "Errors injected into CARES reports by rules (laterality, negation, measurement); "
     "up to 3 random errors per report, 50% clean reports.",
@@ -215,8 +243,7 @@ def main() -> None:
             leaderboard.hero_chart(
                 args.key, stage / "assets" / "radcheck_bench.png", leaderboard.default_logos()
             )
-        (stage / "assets").mkdir(exist_ok=True)
-        shutil.copy2(LOGO, stage / "assets" / "logo.png")
+        cover(args.key, stage / "assets" / "logo.png")
         (stage / "README.md").write_text(model_card(args), encoding="utf-8")
         if args.gguf_lora:
             shutil.copy2(args.gguf_lora, stage / Path(args.gguf_lora).name)

@@ -249,13 +249,13 @@ MASCOTS = {
 }
 
 
-def _mascot(key: str) -> Path:
+def mascot(key: str) -> Path:
     name = next((m for prefix, m in MASCOTS.items() if key.startswith(prefix)), None)
     return IMG / "mascot" / f"{name}.png" if name else IMG / "logo-icon.png"
 
 
 def default_logos() -> dict[str, Path]:
-    logos = {e.key: _mascot(e.key) for e in ENTRIES if e.key.startswith("qwen") and e.fine_tuned}
+    logos = {e.key: mascot(e.key) for e in ENTRIES if e.key.startswith("qwen") and e.fine_tuned}
     return {k: p for k, p in (logos | LOGOS).items() if p.exists()}
 
 
