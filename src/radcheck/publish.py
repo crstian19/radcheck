@@ -160,7 +160,7 @@ llama-server -m <base>.gguf --lora {name} --jinja -ngl 99 --n-cpu-moe 20 -c 1638
             )
         results += (
             "\n### These GGUF files on RadCheck-Bench-ES\n\nMeasured with `llama-server` "
-            "on an AMD RX 6800 XT. The chart and table above use the unquantised model.\n\n"
+            f"on {args.quant_hw}. The chart and table above use the unquantised model.\n\n"
             "| File | F1 | Precision | Recall | False alarms |\n|---|---|---|---|---|\n" + rows
         )
     return f"""{header}
@@ -238,6 +238,7 @@ def main() -> None:
     ap.add_argument(
         "--quant-bench", nargs="+", help="GGUF results on the bench, one JSON per file (gguf)"
     )
+    ap.add_argument("--quant-hw", default="an AMD RX 6800 XT", help="GPU of --quant-bench")
     ap.add_argument("--public", action="store_true")
     args = ap.parse_args()
 
