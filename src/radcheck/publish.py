@@ -246,7 +246,7 @@ def main() -> None:
     ap.add_argument(
         "--quant-bench", nargs="+", help="GGUF results on the bench, one JSON per file (gguf)"
     )
-    ap.add_argument("--quant-hw", default="an AMD RX 6800 XT", help="GPU of --quant-bench")
+    ap.add_argument("--quant-hw", default="an AMD RX 6800", help="GPU of --quant-bench")
     ap.add_argument("--public", action="store_true")
     args = ap.parse_args()
 

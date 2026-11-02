@@ -134,7 +134,7 @@ Gemma 4 31B is trained but its evaluation ran out of memory at batch 16; retry w
 
 | Role | Model | Hardware |
 |---|---|---|
-| Small baseline (prompt only) | Qwen3-1.7B | AMD RX 6800 XT, 16 GB |
+| Small baseline (prompt only) | Qwen3-1.7B | AMD RX 6800, 16 GB |
 | Large reference (prompt only) | Qwen3-32B | NVIDIA RTX PRO 6000 Blackwell, 96 GB |
 | First fine-tune | Qwen3-0.6B → 1.7B, LoRA | AMD |
 | Main fine-tunes | Qwen3-4B / Qwen3.5-4B, Salamandra-7B | Blackwell |
