@@ -2,7 +2,7 @@
 
 A small, local LLM that reviews **Spanish radiology reports** before they are signed and flags internal inconsistencies: swapped laterality, inverted negations, implausible measurements, and findings missing from the conclusion. Think of it as a linter for radiology reports.
 
-> **Status:** learning project, early stage. Not a medical device, not for clinical use. It only checks the internal consistency of a text; it never judges whether a finding is clinically correct.
+> **Status:** research preview, **not validated by a physician**. Learning project, not a medical device, not for clinical use. It only checks the internal consistency of a text; it never judges whether a finding is clinically correct.
 
 ## Why
 
@@ -42,14 +42,18 @@ Pass the extra to **every** `uv sync` and `uv run`. A bare `uv run` re-syncs the
 
 ## Model
 
-Private for now, CC BY-NC-SA 4.0 (inherited from CARES). Each repo holds one model family; every training recipe is a commit + git tag (`v1`, `v2`, ...), `main` is the latest, and `revision="v1"` loads an older one. Uploaded with `python -m radcheck.publish`.
+Public research preview on Hugging Face ([collection](https://huggingface.co/collections/Crstian19/radcheck-6ae5ae4780732cb99bf9bfa3)), CC BY-NC-SA 4.0 (inherited from CARES). Each repo holds one model family; every training recipe is a commit + git tag (`v1`, `v2`, ...), `main` is the latest, and `revision="v4"` loads an older one. Uploaded with `python -m radcheck.publish`.
 
-| Repo | What | Versions | RadCheck-Bench-ES F1 |
+The current version, v4.1, averages the LoRA adapters of several training seeds (a model soup). Scores on RadCheck-Bench-ES (F1) and on the extra track (60 reports: missing findings and dictation slips):
+
+| Repo | What | Bench F1 | Extra F1 |
 |---|---|---|---|
-| [radcheck-qwen35-4b-lora-es](https://huggingface.co/Crstian19/radcheck-qwen35-4b-lora-es) | LoRA for Qwen3.5-4B | v1, **v2** | 0.896, **0.929** |
-| [radcheck-qwen35-4b-gguf-es](https://huggingface.co/Crstian19/radcheck-qwen35-4b-gguf-es) | v2 merged, Q4_K_M / Q8_0 for llama.cpp (runs on a 16 GB GPU) | v2 | (Q4_K_M of v1: 0.894) |
-| [radcheck-qwen38-27b-lora-es](https://huggingface.co/Crstian19/radcheck-qwen38-27b-lora-es) | LoRA for Qwen3.8-27B (best quality) | v1, **v2** | 0.979, **0.979** |
-| [radcheck-qwen3-4b-lora-es](https://huggingface.co/Crstian19/radcheck-qwen3-4b-lora-es) | First model, LoRA for Qwen3-4B | v0.1 | — |
+| [radcheck-qwen35-4b-lora-es](https://huggingface.co/Crstian19/radcheck-qwen35-4b-lora-es) | LoRA for Qwen3.5-4B | 0.956 | 0.500 |
+| [radcheck-qwen35-4b-gguf-es](https://huggingface.co/Crstian19/radcheck-qwen35-4b-gguf-es) | Merged 4B, Q8_0 / Q4_K_M for llama.cpp | 0.956 / 0.953 | |
+| [radcheck-qwen35-9b-lora-es](https://huggingface.co/Crstian19/radcheck-qwen35-9b-lora-es) | LoRA for Qwen3.5-9B | 0.956 | 0.535 |
+| [radcheck-qwen35-9b-gguf-es](https://huggingface.co/Crstian19/radcheck-qwen35-9b-gguf-es) | Merged 9B, Q8_0 / Q4_K_M for llama.cpp | 0.959 / 0.944 | 0.552 / 0.494 |
+
+Benchmark: [radcheck-bench-es](https://huggingface.co/datasets/Crstian19/radcheck-bench-es) (synthetic reports, no patient data, CC BY 4.0).
 
 ![F1 by model](./docs/img/f1-injector-vs-bench.png)
 

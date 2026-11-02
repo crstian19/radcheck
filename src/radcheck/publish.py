@@ -52,6 +52,14 @@ def cover(key: str | None, out: Path) -> None:
     logo.save(out, optimize=True)
 
 
+# Shown on every card: the models are public before the radiologist's review.
+PREVIEW = """> [!WARNING]
+> **Research preview, not validated by a physician.** Trained and evaluated only on
+> injected and synthetic errors; no clinician has reviewed its output yet. It is a learning
+> project, not a medical device: it does not judge clinical correctness and must not be
+> used for patient care."""
+
+
 RECIPES = {
     "v1": "Errors injected into CARES reports by rules (laterality, negation, measurement); "
     "up to 3 random errors per report, 50% clean reports.",
@@ -175,8 +183,8 @@ different sides (`lateralidad`), something asserted in one place and denied in a
 Output is JSON with the type, the exact fragment and a one-sentence explanation.
 
 {"Merged and quantised build of the LoRA fine-tune, for llama.cpp." if gguf else f"LoRA adapter (r{rank}) trained with TRL SFT."}
-Learning project, not a medical device: it does not judge clinical correctness and must not
-be used for patient care.
+
+{PREVIEW}
 
 ## Version {args.tag}
 

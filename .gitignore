@@ -19,3 +19,4 @@ runs/
 .env
 docs/remote-gpu.md
 docs/img/mascot/original/
+backups/

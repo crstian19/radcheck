@@ -83,7 +83,7 @@ radcheck:
 | Gemma 4 31B + LoRA | 0.967 | 0.0% |
 | radcheck Qwen3.8-27B v2 | 0.979 | 0.0% |
 
-- Hugging Face mirror: `Crstian19/radcheck-bench-es` (private for now).
+- Hugging Face mirror: `Crstian19/radcheck-bench-es` (public).
 - "Citation" section pointing to `CITATION.cff`.
 
 ## Acceptance
