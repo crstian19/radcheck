@@ -19,22 +19,30 @@ import gradio as gr
 from huggingface_hub import hf_hub_download
 
 MODEL_REPO = os.environ.get("MODEL_REPO", "Crstian19/radcheck-qwen35-4b-gguf-es")
-MODEL_FILE = os.environ.get("MODEL_FILE", "radcheck-qwen35-4b-v2-Q4_K_M.gguf")
+MODEL_FILE = os.environ.get("MODEL_FILE", "radcheck-qwen35-4b-v4.1-Q4_K_M.gguf")
 SERVER = "http://127.0.0.1:8080"
 
-# Must match src/radcheck/prompts.py SYSTEM_PROMPT (the model was trained with it).
+# Must match src/radcheck/prompts.py SYSTEM_PROMPT_EXTENDED (the model was trained with it).
 SYSTEM_PROMPT = """Eres un asistente que revisa informes radiológicos en español antes de su firma.
-Busca solo incoherencias internas del texto entre los hallazgos y la conclusión:
+Busca solo errores del propio texto:
 - lateralidad: el mismo hallazgo aparece en lados distintos (derecho/izquierdo).
 - negacion: una parte afirma lo que otra niega.
 - medida: la misma medida no coincide (cifra o unidad).
+- discordancia: un hallazgo descrito en los hallazgos no aparece en la conclusión.
+- transcripcion: una palabra mal escrita por el dictado por voz.
 No valores si los hallazgos son clínicamente correctos ni sugieras diagnósticos.
 
 Responde únicamente con JSON, con este formato:
-{"errores": [{"tipo": "lateralidad|negacion|medida", "fragmento": "texto exacto copiado del informe", "explicacion": "una frase"}]}
-Si no hay incoherencias, responde {"errores": []}."""
+{"errores": [{"tipo": "lateralidad|negacion|medida|discordancia|transcripcion", "fragmento": "texto exacto copiado del informe", "explicacion": "una frase"}]}
+Si no hay errores, responde {"errores": []}."""
 
-COLORS = {"lateralidad": "#2a78d6", "negacion": "#eb6834", "medida": "#1baf7a"}
+COLORS = {
+    "lateralidad": "#2a78d6",
+    "negacion": "#eb6834",
+    "medida": "#1baf7a",
+    "discordancia": "#8a5cf5",
+    "transcripcion": "#d1a20f",
+}
 
 
 def start_server() -> None:
@@ -126,10 +134,12 @@ EXAMPLES = json.loads((Path(__file__).parent / "examples.json").read_text(encodi
 with gr.Blocks(title="radcheck") as demo:
     gr.Markdown(
         "# radcheck\n"
-        "Flags **internal inconsistencies** in Spanish radiology reports: laterality, negation "
-        "and measurements that do not match between findings and conclusion. Qwen3.5-4B "
-        "fine-tuned with LoRA (Q4 quantised, CPU). Reports and explanations are in Spanish.\n\n"
-        "> Learning project, not a medical device. **Never paste real patient data.**"
+        "Flags **internal inconsistencies** in Spanish radiology reports: laterality, negation, "
+        "measurements, findings missing from the conclusion and dictation slips. Qwen3.5-4B "
+        "fine-tuned with LoRA (v4.1, Q4 quantised) on a free CPU, so expect ~30-60 s per report. "
+        "Reports and explanations are in Spanish.\n\n"
+        "> Research preview, **not validated by a physician**. Not a medical device. "
+        "**Never paste real patient data.**"
     )
     report = gr.Textbox(
         label="Report (Spanish)", lines=12, placeholder="HALLAZGOS: ... CONCLUSIÓN: ..."
