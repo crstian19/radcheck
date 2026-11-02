@@ -35,9 +35,10 @@ def cover(key: str | None, out: Path) -> None:
     if not mascot or mascot.parent.name != "mascot":
         shutil.copy2(LOGO, out)
         return
-    logo = Image.open(LOGO).convert("RGB")
+    logo = Image.open(LOGO).convert("RGBA")  # transparent background, readable on dark themes
     a = np.asarray(logo)[:, : logo.width * 2 // 5]  # the circle sits in the left 40%
-    ys, xs = np.where(a.max(axis=2) < 120)  # near-black outline only (the blue text is bright)
+    # near-black outline only (the blue text is bright, the transparent paper is skipped)
+    ys, xs = np.where((a[..., :3].max(axis=2) < 120) & (a[..., 3] > 128))
     r = max(xs.max() - xs.min(), ys.max() - ys.min()) / 2 + 1
     cx, cy = (xs.min() + xs.max()) / 2, (ys.min() + ys.max()) / 2
     # Mascot crops carry a 6 px margin around a ~1,154 px circle; keep the same proportion.
@@ -45,10 +46,13 @@ def cover(key: str | None, out: Path) -> None:
     box = tuple(round(v) for v in (cx - r, cy - r, cx + r, cy + r))
     pad = round(r * 2 * 6 / 1166)
     size = (box[2] - box[0], box[3] - box[1])
-    icon = Image.open(mascot).convert("RGB").resize(size, Image.LANCZOS)
+    # The mascots are already cut to their circle with a transparent margin: clear the old
+    # circle and lay the mascot over it, so no white ring is left around it.
+    icon = Image.open(mascot).convert("RGBA").resize(size, Image.LANCZOS)
     mask = Image.new("L", size, 0)
-    ImageDraw.Draw(mask).ellipse((pad - 2, pad - 2, size[0] - pad + 1, size[1] - pad + 1), fill=255)
-    logo.paste(icon, box[:2], mask)
+    ImageDraw.Draw(mask).ellipse((pad - 4, pad - 4, size[0] - pad + 3, size[1] - pad + 3), fill=255)
+    logo.paste(Image.new("RGBA", size, (0, 0, 0, 0)), box[:2], mask)
+    logo.alpha_composite(icon, box[:2])
     logo.save(out, optimize=True)
 
 
