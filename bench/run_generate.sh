@@ -23,7 +23,8 @@ PY
 )
 if [ -z "$KEY" ]; then echo "no key found" >&2; exit 1; fi
 
-export DEEPSEEK_API_KEY="$KEY"
-export RADCHECK_BENCH_MODEL="${RADCHECK_BENCH_MODEL:-deepseek-v4-flash}"
+export RADCHECK_BENCH_API_KEY="$KEY"
+: "${RADCHECK_BENCH_MODEL:?set RADCHECK_BENCH_MODEL}"
+export RADCHECK_BENCH_MODEL
 
 exec .venv/bin/python bench/generate.py generate "$@"

@@ -7,11 +7,10 @@ what produced `raw.jsonl`, so a run can be reproduced or audited.
 
 | Field | Value |
 |---|---|
-| Model id | `deepseek-v4-flash` |
-| Endpoint | private OpenAI-compatible gateway (`RADCHECK_BENCH_BASE_URL`) |
-| Model family | DeepSeek V4 Flash (`deepseek-v4-flash`) |
+| Model | a general-purpose LLM (`RADCHECK_BENCH_MODEL`) |
+| Endpoint | OpenAI-compatible endpoint (`RADCHECK_BENCH_BASE_URL`) |
 | Temperature | 0.75, +0.05 per retry |
-| `seed` | per item: `13 + crc32(id) + 7919 * attempt` (a fixed seed made the gateway replay the same report for different specs, producing duplicates) |
+| `seed` | per item: `13 + crc32(id) + 7919 * attempt` (a fixed seed made the server replay the same report for different specs, producing duplicates) |
 | Thinking | disabled per call: `chat_template_kwargs.enable_thinking=false` |
 | Response format | `{"type": "json_object"}` |
 | Max tokens | 4000 |
@@ -25,8 +24,7 @@ what produced `raw.jsonl`, so a run can be reproduced or audited.
 | Temperature | 0.1, up to 3 attempts |
 | Prompt | `checker_system.txt` + `checker_user.txt` (receives only `informe`) |
 
-The checker is a **different model family** from the generator on purpose: `deepseek-v4-pro`
-was not served by the gateway used for generation, so a cross-family model was chosen to keep
+The checker is a **different model family** from the generator on purpose, to keep
 the second opinion independent in the way that matters most (different weights, different
 biases). It disagrees with 10 of 400 main-track labels (2.5%); every disagreement is listed in
 `review.jsonl` rather than dropped.
@@ -51,5 +49,5 @@ biases). It disagrees with 10 of 400 main-track labels (2.5%); every disagreemen
 
 ## Credentials
 
-The API key is read from `DEEPSEEK_API_KEY` at call time. It is never written to a file, a log,
+The API key is read from `RADCHECK_BENCH_API_KEY` at call time. It is never written to a file, a log,
 or an output artefact.

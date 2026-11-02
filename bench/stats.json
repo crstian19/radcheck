@@ -75,9 +75,6 @@
     "over_250_share": 0.324
   },
   "corrupted": 260,
-  "generador": {
-    "deepseek-v4-flash": 460
-  },
   "validation": {
     "validate_pass": 460,
     "validate_fail": 0,

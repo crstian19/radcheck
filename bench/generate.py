@@ -1,4 +1,4 @@
-"""Build RadCheck-Bench-ES v1: specs, generation against DeepSeek, independent check.
+"""Build RadCheck-Bench-ES v1: specs, generation against an LLM, independent check.
 
 Subcommands
 -----------
@@ -7,7 +7,7 @@ Subcommands
   check       independent verification prompt -> bench/review.jsonl
   usage       print token usage accumulated in bench/usage.json
 
-The API key is read from DEEPSEEK_API_KEY at call time and is never written anywhere.
+The API key is read from RADCHECK_BENCH_API_KEY at call time and is never written anywhere.
 """
 
 from __future__ import annotations
@@ -26,10 +26,10 @@ BENCH = Path(__file__).resolve().parent
 PROMPTS = BENCH / "prompts"
 sys.path.insert(0, str(BENCH))
 SEED = 13
-MODEL = os.environ.get("RADCHECK_BENCH_MODEL", "deepseek-v4-flash")
+MODEL = os.environ.get("RADCHECK_BENCH_MODEL", "")
 CHECK_MODEL = os.environ.get("RADCHECK_BENCH_CHECK_MODEL", "qwen3.8-flash")
-BASE_URL = os.environ.get("RADCHECK_BENCH_BASE_URL", "https://api.deepseek.com/v1")
-KEY_VAR = "DEEPSEEK_API_KEY"
+BASE_URL = os.environ.get("RADCHECK_BENCH_BASE_URL")
+KEY_VAR = "RADCHECK_BENCH_API_KEY"
 CHECK_BASE_URL = os.environ.get("RADCHECK_BENCH_CHECK_BASE_URL", BASE_URL)
 CHECK_KEY_VAR = os.environ.get("RADCHECK_BENCH_CHECK_KEY_VAR", KEY_VAR)
 TEMPERATURE = 0.8
@@ -270,7 +270,7 @@ def _chat(
         "temperature": TEMPERATURE if temperature is None else temperature,
         "max_tokens": 4000,
         "seed": seed if seed is not None else SEED,
-        # deepseek-v4-flash thinks by default (~70 reasoning tokens on a one-line answer).
+        # The generator thinks by default (~70 reasoning tokens on a one-line answer).
         "extra_body": {"chat_template_kwargs": {"enable_thinking": False}},
     }
     if json_mode:
@@ -637,7 +637,6 @@ def _one(spec: dict, client, model: str, temperature: float | None = None,
             "dificultad": spec["dificultad"],
             "hard_negative": spec.get("hard_negative"),
             "palabras": len(report.split()),
-            "generador": model,
             "slice": spec["slice"],
         },
     }
@@ -655,6 +654,8 @@ def run(specs: list[dict], args: argparse.Namespace) -> None:
                 prev = json.loads(line)
                 _claim_text(prev["informe"], prev["id"])
     todo = [s for s in specs if s["id"] not in done]
+    if not MODEL:
+        sys.exit("RADCHECK_BENCH_MODEL is not set")
     print(f"{len(todo)} specs to generate with {MODEL}", file=sys.stderr)
 
     lock = threading.Lock()

@@ -51,7 +51,6 @@ ALLOWED_HOSTS = {
     "keepachangelog.com",
     "www.sciencedirect.com",  # CARES paper
     "semver.org",
-    "api.deepseek.com",  # public API, named in the benchmark's generation scripts
 }
 SKIP_DIRS = {
     ".git",

@@ -14,7 +14,7 @@ repo and push it himself.
    `~/Dev/radcheck-bench-es/`.
 2. **Do not create a GitHub repository, add a remote, push or publish anything.** You may run
    `git init` and stage files, but **do not commit**: the owner reviews and commits.
-3. **No secrets.** The API key is read from `DEEPSEEK_API_KEY` at run time. Make sure no key,
+3. **No secrets.** The API key is read from `RADCHECK_BENCH_API_KEY` at run time. Make sure no key,
    token, gateway URL with credentials, or private hostname appears in any file, log or
    notebook. Run a secret scan (e.g. `gitleaks detect --no-git` if available, otherwise grep for
    `sk-`, `api_key`, `token`, `Bearer`, `password`) and report the result.

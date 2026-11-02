@@ -87,7 +87,7 @@ Use each style for at least 15% of items.
   ],
   "meta": {
     "modalidad": "TC", "region": "abdomen-pelvis", "estilo": "A", "dificultad": "medium",
-    "hard_negative": null, "palabras": 214, "generador": "deepseek-..."
+    "hard_negative": null, "palabras": 214
   }
 }
 ```
@@ -138,7 +138,7 @@ Produced by `bench/build.py` from `raw.jsonl`, in radcheck's evaluation format s
 6. **Build** the evaluation files (§5.2) and `bench/stats.json` with counts per slice, style, modality, region, difficulty and length.
 7. **Human review hook.** Export 50 test items (stratified) to `bench/radiologist_review.md` for the collaborating radiologist: report, label, explanation, and a checkbox for "realistic / error verifiable / label correct".
 
-Tooling is free. Plain Python + the DeepSeek API (OpenAI-compatible) is enough. NVIDIA NeMo Data Designer (`npx skills add https://github.com/nvidia/skills --skill data-designer`) can drive steps 2–3 with `ModelProvider(provider_type="openai", endpoint="https://api.deepseek.com/v1", api_key="DEEPSEEK_API_KEY")`. Keep generation temperature moderate (0.7–0.9) for variety; seed everything; log every prompt and model version.
+Tooling is free. Plain Python + any OpenAI-compatible LLM API is enough. NVIDIA NeMo Data Designer (`npx skills add https://github.com/nvidia/skills --skill data-designer`) can drive steps 2–3 with `ModelProvider(provider_type="openai", endpoint=..., api_key=...)`. Keep generation temperature moderate (0.7–0.9) for variety; seed everything; log every prompt and model version.
 
 ## 8. System prompt (verbatim, used in §5.2)
 

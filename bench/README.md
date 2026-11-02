@@ -85,7 +85,7 @@ telegraphic with abbreviations), 60–500 words and three difficulty levels.
    being silently dropped.
 6. `build.py` writes the evaluation files and the statistics.
 
-Generator model and versions: `prompts/MODEL.md`. The key is read from `DEEPSEEK_API_KEY` and
+Generator model and versions: `prompts/MODEL.md`. The key is read from `RADCHECK_BENCH_API_KEY` and
 is never written to disk or to a log.
 
 ## Independence from the training pipeline
@@ -121,17 +121,15 @@ report is complete; no duplicates.
 
 The benchmark items are released under **CC BY 4.0**: use, share and adapt with attribution.
 
-The text was generated with DeepSeek models served through an OpenAI-compatible gateway. When
-reusing the corpus, also respect the generator provider's terms of use. The pipeline code
-(`*.py`) follows the radcheck repository's MIT licence.
+The pipeline code (`*.py`) follows the radcheck repository's MIT licence.
 
 ## Reproduce
 
 ```bash
 python bench/generate.py specs                 # specs.jsonl (offline)
-DEEPSEEK_API_KEY=... python bench/generate.py generate
+RADCHECK_BENCH_API_KEY=... RADCHECK_BENCH_MODEL=... python bench/generate.py generate
 python bench/validate.py
-DEEPSEEK_API_KEY=... RADCHECK_BENCH_CHECK_MODEL=qwen3.8-flash python bench/generate.py check
+RADCHECK_BENCH_API_KEY=... RADCHECK_BENCH_CHECK_MODEL=qwen3.8-flash python bench/generate.py check
 python bench/build.py
 python bench/check.py                          # independent check -> review.jsonl
 python bench/report.py                         # report.html

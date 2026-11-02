@@ -98,7 +98,6 @@ def stats(items: list[dict]) -> dict:
             ),
         },
         "corrupted": sum(1 for i in items if i["errores"]),
-        "generador": dict(collections.Counter(i["meta"]["generador"] for i in items)),
     }
 
 
